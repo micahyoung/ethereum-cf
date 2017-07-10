@@ -1,0 +1,7 @@
+---
+applications:
+- name: node
+  command: ./geth --port 30301 --rpcport 8101 --networkid="12345" --bootnodes=enode://8ba26367c9651a53880326ea2065da08c6f7ee744afcf3c0ab7dfe3457542fd2d467f57cff69729602427593beb6e1cadd01b0d122caf22120cb1e204ffbec72@$BOOTNODE_IP:33445 --datadir="./data" --rpcaddr 0.0.0.0 --nat none -verbosity 6
+  health-check-type: process
+  buildpack: binary_buildpack
+  no-route: true
