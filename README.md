@@ -2,14 +2,37 @@
 
 Example of private ethereum cluster running on Cloud Foundry
 
+## Overview
+
+The `up.sh` script will stand up 3 apps:
+
+* `bootnode` - the service discovery node for the network
+* `miners` - one instance of a miner node for block creation
+* `nodes` - one instance of a geth node to process transactions
+
+You can access any of these nodes with `cf ssh` and use the `geth` binary at `app/geth` and the data dir at `app/data`. The genesis file and accounts used are provided with the repo and should not be reused in any production environment.
+
+The miner comes up in a stopped state to prevent run-away CPU usage.
+
+## Testing
+
+The `test.sh` script will:
+
+* Stop the miner if running
+* Mine 1 block to create ETH for account 0
+* Initiate a transfer of ETH from account 0 to account 1
+* Mine 1 block to complete the transfer
+* Show the balances of each account to confirm the transfer has occured 
+
 ## Prerequisites
 
-* Cloud Foundry CLI https://github.com/cloudfoundry/cli
+* [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
+* [Go-Ethereum client](https://geth.ethereum.org/downloads/)
 * Account on Cloud Foundry environment with [Container-to-Container networking](https://docs.pivotal.io/pivotalcf/1-10/concepts/understand-cf-networking.html) and [SSH](https://docs.pivotal.io/pivotalcf/1-10/opsguide/config-ssh.html) enabled
   * Recommended: Pivotal Web Services (you may need to [request C2C networking](mailto:support@run.pivotal.io?subject=Access%20to%20Container%20Networking%20on%20PWS&body=Can%20I%20please%20get%20access%20to%20Container%20Networking%20stack%20on%20PWS%3F%20Thank%20you.))
   * Supported on [Pivotal Cloud Foundry 1.10](https://docs.pivotal.io/pivotalcf/1-10/pcf-release-notes/index.html) and higher
 
-## Instructions
+## Usage
 
 * Install the cf cli network policy plugin
 ```
