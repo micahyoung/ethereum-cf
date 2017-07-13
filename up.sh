@@ -39,22 +39,14 @@ cf set-env nodes BOOTNODE_IP $BOOTNODE_IP
 cf start miners
 cf start nodes
 
-cf allow-access nodes  nodes    --protocol udp --port 30301
-cf allow-access nodes  nodes    --protocol tcp --port 30301
-cf allow-access nodes  nodes    --protocol udp --port 8101
-cf allow-access nodes  nodes    --protocol tcp --port 8101
 cf allow-access miners nodes    --protocol udp --port 30301
 cf allow-access miners nodes    --protocol tcp --port 30301
-cf allow-access miners nodes    --protocol udp --port 8101
-cf allow-access miners nodes    --protocol tcp --port 8101
+cf allow-access nodes  nodes    --protocol udp --port 30301
+cf allow-access nodes  nodes    --protocol tcp --port 30301
 cf allow-access nodes  miners   --protocol udp --port 30301
 cf allow-access nodes  miners   --protocol tcp --port 30301
-cf allow-access nodes  miners   --protocol udp --port 8101
-cf allow-access nodes  miners   --protocol tcp --port 8101
 cf allow-access miners miners   --protocol udp --port 30301
 cf allow-access miners miners   --protocol tcp --port 30301
-cf allow-access miners miners   --protocol udp --port 8101
-cf allow-access miners miners   --protocol tcp --port 8101
 cf allow-access nodes  bootnode --protocol udp --port 33445
 cf allow-access miners bootnode --protocol udp --port 33445
 
