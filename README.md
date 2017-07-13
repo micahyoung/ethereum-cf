@@ -6,7 +6,7 @@ Example of private ethereum cluster running on Cloud Foundry
 
 * Cloud Foundry CLI https://github.com/cloudfoundry/cli
 * Account on Cloud Foundry environment with [Container-to-Container networking](https://docs.pivotal.io/pivotalcf/1-10/concepts/understand-cf-networking.html) and [SSH](https://docs.pivotal.io/pivotalcf/1-10/opsguide/config-ssh.html) enabled
-  * Recommended: Pivotal Web Services (you may need to [request C2C networking](mailto:support@run.pivotal.io?subject=Access%20to%20Container%20Networking%20on%20PWS&body=Can%20I%20please%20get%20access%20to%20Container%20Networking%20stack%20on%20PWS%3F%20Thank%20you.)
+  * Recommended: Pivotal Web Services (you may need to [request C2C networking](mailto:support@run.pivotal.io?subject=Access%20to%20Container%20Networking%20on%20PWS&body=Can%20I%20please%20get%20access%20to%20Container%20Networking%20stack%20on%20PWS%3F%20Thank%20you.))
   * Supported on [Pivotal Cloud Foundry 1.10](https://docs.pivotal.io/pivotalcf/1-10/pcf-release-notes/index.html) and higher
 
 ## Instructions
