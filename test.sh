@@ -25,7 +25,6 @@ echo
 
 echo "Mining one block - may take several minutes (expect true):"
 cf ssh miners -i 0 -c "app/geth attach --exec 'miner.start(1); admin.sleepBlocks(1); miner.stop()' app/data/geth.ipc"
-sleep 5 #wait for transactions to propigate on slow containers
 echo
 
 echo "Balances (expect [previous+5, same]):"
