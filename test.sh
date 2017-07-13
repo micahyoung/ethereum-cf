@@ -4,11 +4,11 @@ set -o pipefail
 set -o nounset
 
 echo "Miners peers (expect one):"
-cf ssh miners -i $i -c "app/geth attach --exec 'JSON.stringify(admin.peers)' app/data/geth.ipc" | jq 'fromjson | .[].network.remoteAddress'
+cf ssh miners -i 0 -c "app/geth attach --exec 'JSON.stringify(admin.peers)' app/data/geth.ipc" | jq 'fromjson | .[].network.remoteAddress'
 echo
 
 echo "Nodes peers (expect one):"
-ssh nodes -i $i -c "app/geth attach --exec 'JSON.stringify(admin.peers)' app/data/geth.ipc" | jq 'fromjson | .[].network.remoteAddress'
+cf ssh nodes -i 0 -c "app/geth attach --exec 'JSON.stringify(admin.peers)' app/data/geth.ipc" | jq 'fromjson | .[].network.remoteAddress'
 echo
 
 echo "Stopping miner (expect true):"
