@@ -7,7 +7,7 @@ Example of private ethereum cluster running on Cloud Foundry
 The `up.sh` script will stand up 3 apps:
 
 * `bootnode` - the service discovery node for the network
-* `miners` - one instance of a miner node for block creation
+* `miners` - one instance of a geth miner node for block creation
 * `nodes` - one instance of a geth node to execute transactions
 
 You can access any of these nodes with `cf ssh` and use the `geth` binary at `app/geth` and the data dir at `app/data`. The genesis file and accounts used are provided with the repo and should not be reused in any production environment.
