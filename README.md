@@ -38,8 +38,7 @@ cf logs miners | grep DAG
 
 ## Notes
 
-* Verbosity is turned up on `geth` and `bootnodes` so the logs show lots of false positive errors
-    Examples:
+* Verbosity is turned up on `geth` and `bootnodes` so the logs show lots of false positive errors. Examples:
 ```
 <log stamp> Dial error                               task="dyndial 8ba26367c9651a53 10.253.245.133:33445" err="dial tcp 10.253.245.133:33445: getsockopt: connection refused"
 ...
