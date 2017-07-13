@@ -1,4 +1,4 @@
-# Ethereum on PCF
+# Ethereum on Cloud Foundry
 
 Example of private ethereum cluster running on Cloud Foundry
 
@@ -40,7 +40,7 @@ cf logs miners | grep DAG
 
 * Verbosity is turned up on `geth` and `bootnodes` so the logs show lots of false positive errors
 ```
-<log stamp>Dial error                               task="dyndial 8ba26367c9651a53 10.253.245.133:33445" err="dial tcp 10.253.245.133:33445: getsockopt: connection refused"
+<log stamp> Dial error                               task="dyndial 8ba26367c9651a53 10.253.245.133:33445" err="dial tcp 10.253.245.133:33445: getsockopt: connection refused"
 ```
 
 ## References
