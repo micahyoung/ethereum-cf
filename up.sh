@@ -26,9 +26,9 @@ geth init --datadir="./pcf-root/data/" genesis.json
 cf delete bootnode -f
 cf delete miners   -f
 cf delete nodes    -f
-cf push bootnode -f bootnode-manifest.yml -p pcf-root/ --no-start
-cf push miners   -f miner-manifest.yml    -p pcf-root/ --no-start
-cf push nodes    -f node-manifest.yml     -p pcf-root/ --no-start
+cf push bootnode -f manifests/bootnode-manifest.yml -p pcf-root/ --no-start
+cf push miners   -f manifests/miner-manifest.yml    -p pcf-root/ --no-start
+cf push nodes    -f manifests/node-manifest.yml     -p pcf-root/ --no-start
 
 cf start bootnode
 
