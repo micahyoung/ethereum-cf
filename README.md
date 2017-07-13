@@ -6,7 +6,7 @@ Example of private ethereum cluster running on Cloud Foundry
 
 The `up.sh` script will stand up 3 apps:
 
-* `bootnode` - the service discovery node for the network
+* `bootnodes` - one instance of the service discovery node for the network
 * `miners` - one instance of a geth miner node for block creation
 * `nodes` - one instance of a geth node to execute transactions
 
