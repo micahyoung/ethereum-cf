@@ -46,16 +46,6 @@ cf login -a https://api.your-cf.com -u your-email@example.com -o your-org -s you
 
 * Run `up.sh` and wait for it to finish
 
-* Watch the miner logs until the DAG finished (usually when **epoch=1 percentage=99**). May take several minutes to complete
-```
-cf logs miners | grep DAG
-...
-<log stamp> Generating DAG in progress               epoch=1 percentage=97 elapsed=55.801s
-<log stamp> Generating DAG in progress               epoch=1 percentage=98 elapsed=56.444s
-<log stamp> Generating DAG in progress               epoch=1 percentage=99 elapsed=57.409s
-...
-```
-
 * Run `tests.sh`. Read the prompts and compare it to the output to confirm the cluster is working
 
 

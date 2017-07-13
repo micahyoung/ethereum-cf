@@ -50,5 +50,5 @@ cf allow-access miners miners   --protocol tcp --port 30301
 cf allow-access nodes  bootnode --protocol udp --port 33445
 cf allow-access miners bootnode --protocol udp --port 33445
 
-# Stop mining, though DAG generation will continue
-cf ssh miners -i 0 -c "app/geth attach --exec 'miner.stop()' app/data/geth.ipc"
+echo "Mining two blocks to confirm DAG is created and cluster is up and settled. May take several minutes (expect true):"
+cf ssh miners -i 0 -c "app/geth attach --exec 'miner.start(1); admin.sleepBlocks(2); miner.stop()' app/data/geth.ipc"
