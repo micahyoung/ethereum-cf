@@ -18,11 +18,11 @@ The miner comes up in a stopped state to prevent run-away CPU usage.
 
 The `test.sh` script will:
 
-* Stop the miner if running
-* Mine 1 block to create ETH for account 0
-* Initiate a transfer of ETH from account 0 to account 1
-* Mine 1 block to complete the transfer
-* Show the balances of each account to confirm the transfer has occured 
+1. Stop the miner if running
+1. Mine 1 block to create ETH for account 0
+1. Initiate a transfer of ETH from account 0 to account 1
+1. Mine 1 block to complete the transfer
+1. Show the balances of each account to confirm the transfer has occured 
 
 ## Prerequisites
 
