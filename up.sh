@@ -30,8 +30,15 @@ cf push bootnode -f bootnode-manifest.yml -p pcf-root/ --no-start
 cf push miners   -f miner-manifest.yml    -p pcf-root/ --no-start
 cf push nodes    -f node-manifest.yml     -p pcf-root/ --no-start
 
-cf allow-access nodes  bootnode --protocol udp --port 33445
-cf allow-access miners bootnode --protocol udp --port 33445
+cf start bootnode
+
+BOOTNODE_IP=$(cf ssh bootnode -c "hostname --ip-address")
+cf set-env miners BOOTNODE_IP $BOOTNODE_IP
+cf set-env nodes BOOTNODE_IP $BOOTNODE_IP
+
+cf start miners
+cf start nodes
+
 cf allow-access nodes  nodes    --protocol udp --port 30301
 cf allow-access nodes  nodes    --protocol tcp --port 30301
 cf allow-access nodes  nodes    --protocol udp --port 8101
@@ -48,14 +55,8 @@ cf allow-access miners miners   --protocol udp --port 30301
 cf allow-access miners miners   --protocol tcp --port 30301
 cf allow-access miners miners   --protocol udp --port 8101
 cf allow-access miners miners   --protocol tcp --port 8101
-
-cf start bootnode
-BOOTNODE_IP=$(cf ssh bootnode -c "hostname --ip-address")
-
-cf set-env miners BOOTNODE_IP $BOOTNODE_IP
-cf start miners
-cf set-env nodes BOOTNODE_IP $BOOTNODE_IP
-cf start nodes
+cf allow-access nodes  bootnode --protocol udp --port 33445
+cf allow-access miners bootnode --protocol udp --port 33445
 
 # Stop mining, though DAG generation will continue
 cf ssh miners -i 0 -c "app/geth attach --exec 'miner.stop()' app/data/geth.ipc"
