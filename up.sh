@@ -51,4 +51,4 @@ cf allow-access nodes  bootnodes --protocol udp --port 33445
 cf allow-access miners bootnodes --protocol udp --port 33445
 
 echo "Mining two blocks to confirm DAG is created and cluster is up and settled. May take several minutes (expect true):"
-cf ssh miners -i 0 -c "app/geth attach --exec 'miner.start(1); admin.sleepBlocks(2); miner.stop()' app/data/geth.ipc"
+cf ssh miners -i 0 -c "app/geth attach --exec 'admin.sleepBlocks(2); miner.stop()' app/data/geth.ipc"
