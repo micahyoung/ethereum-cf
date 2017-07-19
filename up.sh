@@ -3,6 +3,10 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+read -p "This will delete and recreate all existing nodes and keys. Are you sure? " -n 1 -r
+echo
+[[ $REPLY =~ ^[Yy]$ ]] || exit 1
+
 rm -rf geth-tmp
 mkdir geth-tmp
 pushd geth-tmp
