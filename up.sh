@@ -20,8 +20,20 @@ rm -rf pcf-root
 mkdir pcf-root
 cp geth-tmp/usr/bin/{geth,bootnode} pcf-root/
 mkdir pcf-root/data
-cp -r keystore pcf-root/data/
-geth init --datadir="./pcf-root/data/" genesis.json
+cp -r genesis-template.json pcf-root/data/genesis.json
+
+geth account new --datadir pcf-root/data/ --password <(echo password)
+geth account new --datadir pcf-root/data/ --password <(echo password)
+
+for keystore in pcf-root/data/keystore/*; do
+  ACCOUNT_ID="0x$(jq -r '.address' < $keystore)"
+
+  mv pcf-root/data/genesis.json{,.bak}
+  cat > pcf-root/data/genesis.json \
+    <(cat pcf-root/data/genesis.json.bak | jq --arg account_id $ACCOUNT_ID '.alloc |= .+ {($account_id): {"balance": "1000000000000000000"}}')
+done
+
+geth init --datadir="./pcf-root/data/" ./pcf-root/data/genesis.json
 
 cf delete bootnodes -f
 cf delete miners    -f
