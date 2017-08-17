@@ -11,11 +11,11 @@ rm -rf geth-tmp
 mkdir geth-tmp
 pushd geth-tmp
   #From PPA trusty packages: https://launchpad.net/~ethereum/+archive/ubuntu/ethereum/+packages?field.name_filter=ethereum&field.status_filter=published&field.series_filter=trusty
-  curl -L https://launchpad.net/~ethereum/+archive/ubuntu/ethereum/+files/geth_1.6.6+build10111+trusty_amd64.deb > geth.deb
+  curl -L https://launchpad.net/~ethereum/+archive/ubuntu/ethereum/+files/geth_1.6.7+build10273+trusty_amd64.deb > geth.deb
   ar p geth.deb data.tar.xz | tar xJ
   rm geth.deb
 
-  curl -L https://launchpad.net/~ethereum/+archive/ubuntu/ethereum/+files/bootnode_1.6.6+build10111+trusty_amd64.deb > bootnode.deb
+  curl -L https://launchpad.net/~ethereum/+archive/ubuntu/ethereum/+files/bootnode_1.6.7+build10273+trusty_amd64.deb > bootnode.deb
   ar p bootnode.deb data.tar.xz | tar xJ
   rm bootnode.deb
 popd
