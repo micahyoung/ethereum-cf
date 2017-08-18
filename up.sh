@@ -42,9 +42,6 @@ geth init --datadir="./pcf-root/data/" ./pcf-root/data/genesis.json
 bootnode --genkey bootnode.key
 BOOTNODE_PUBKEY=$(bootnode --writeaddress --nodekey bootnode.key)
 
-cf delete bootnodes -f
-cf delete miners    -f
-cf delete nodes     -f
 cf push bootnodes -f manifests/bootnode-manifest.yml -p pcf-root/ --no-start
 cf push miners    -f manifests/miner-manifest.yml    -p pcf-root/ --no-start
 cf push nodes     -f manifests/node-manifest.yml     -p pcf-root/ --no-start
