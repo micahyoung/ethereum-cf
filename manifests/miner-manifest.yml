@@ -1,7 +1,7 @@
 ---
 applications:
 - name: node
-  command: ./geth --networkid="12345" --bootnodes=enode://8ba26367c9651a53880326ea2065da08c6f7ee744afcf3c0ab7dfe3457542fd2d467f57cff69729602427593beb6e1cadd01b0d122caf22120cb1e204ffbec72@$BOOTNODE_IP:33445 --mine --minerthreads=1 --etherbase=0 --datadir="./data" --nat none -verbosity 6
+  command: ./geth --networkid="12345" --bootnodes=enode://$BOOTNODE_PUBKEY@$BOOTNODE_IP:33445 --mine --minerthreads=1 --etherbase=0 --datadir="./data" --nat none -verbosity 6
   disk_quota: 4G
   health-check-type: process
   buildpack: binary_buildpack
