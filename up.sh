@@ -39,6 +39,9 @@ done
 
 geth init --datadir="./pcf-root/data/" ./pcf-root/data/genesis.json
 
+bootnode --genkey bootnode.key
+BOOTNODE_PUBKEY=$(bootnode --writeaddress --nodekey bootnode.key)
+
 cf delete bootnodes -f
 cf delete miners    -f
 cf delete nodes     -f
@@ -49,7 +52,9 @@ cf push nodes     -f manifests/node-manifest.yml     -p pcf-root/ --no-start
 cf start bootnodes
 
 BOOTNODE_IP=$(cf ssh bootnodes -c "hostname --ip-address")
+cf set-env miners BOOTNODE_PUBKEY $BOOTNODE_PUBKEY
 cf set-env miners BOOTNODE_IP $BOOTNODE_IP
+cf set-env nodes BOOTNODE_PUBKEY $BOOTNODE_PUBKEY
 cf set-env nodes BOOTNODE_IP $BOOTNODE_IP
 
 cf start miners
