@@ -73,5 +73,5 @@ cf allow-access miners miners    --protocol tcp --port 30303
 cf allow-access nodes  bootnodes --protocol udp --port $BOOTNODE_PORT
 cf allow-access miners bootnodes --protocol udp --port $BOOTNODE_PORT
 
-echo "Mining two blocks to confirm DAG is created and cluster is up and settled. May take several minutes (expect true):"
-cf ssh miners -i 0 -c "app/geth attach --exec 'admin.sleepBlocks(2); miner.stop()' app/data/geth.ipc"
+echo "Mining a block to confirm DAG is created and cluster is up and settled. May take several minutes (expect true):"
+cf ssh miners -i 0 -c "app/geth attach --exec 'admin.sleepBlocks(1); miner.stop()' app/data/geth.ipc"
