@@ -50,8 +50,7 @@ cf start bootnodes
 
 NETWORK_ID="12345"
 BOOTNODE_PUBKEY=$(< geth-tmp/bootnode.pub)
-cf run-task bootnodes 'echo BOOTNODE_IP:$(hostname --ip-address):'
-BOOTNODE_IP=$(grep -m1 -o -e 'BOOTNODE_IP:.*' <(cf logs bootnodes) | cut -d: -f2)
+BOOTNODE_IP=$(cf ssh bootnodes -c "hostname --ip-address")
 
 cf set-env miners NETWORK_ID $NETWORK_ID
 cf set-env miners BOOTNODE_PORT $BOOTNODE_PORT
