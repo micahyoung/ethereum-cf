@@ -41,12 +41,21 @@ cf push bootnodes -f manifests/bootnode-manifest.yml -p pcf-root/ --no-start
 cf push miners    -f manifests/miner-manifest.yml    -p pcf-root/ --no-start
 cf push nodes     -f manifests/node-manifest.yml     -p pcf-root/ --no-start
 
+BOOTNODE_PORT=33445
+BOOTNODE_KEY=$(< geth-tmp/bootnode.key)
+cf set-env bootnodes BOOTNODE_PORT $BOOTNODE_PORT
+cf set-env bootnodes BOOTNODE_KEY $BOOTNODE_KEY
 cf start bootnodes
 
+NETWORK_ID="12345"
 BOOTNODE_PUBKEY=$(< geth-tmp/bootnode.pub)
 BOOTNODE_IP=$(cf ssh bootnodes -c "hostname --ip-address")
+cf set-env miners NETWORK_ID $NETWORK_ID
+cf set-env miners BOOTNODE_PORT $BOOTNODE_PORT
 cf set-env miners BOOTNODE_PUBKEY $BOOTNODE_PUBKEY
 cf set-env miners BOOTNODE_IP $BOOTNODE_IP
+cf set-env nodes NETWORK_ID $NETWORK_ID
+cf set-env nodes BOOTNODE_PORT $BOOTNODE_PORT
 cf set-env nodes BOOTNODE_PUBKEY $BOOTNODE_PUBKEY
 cf set-env nodes BOOTNODE_IP $BOOTNODE_IP
 
@@ -61,8 +70,8 @@ cf allow-access nodes  miners    --protocol udp --port 30303
 cf allow-access nodes  miners    --protocol tcp --port 30303
 cf allow-access miners miners    --protocol udp --port 30303
 cf allow-access miners miners    --protocol tcp --port 30303
-cf allow-access nodes  bootnodes --protocol udp --port 33445
-cf allow-access miners bootnodes --protocol udp --port 33445
+cf allow-access nodes  bootnodes --protocol udp --port $BOOTNODE_PORT
+cf allow-access miners bootnodes --protocol udp --port $BOOTNODE_PORT
 
 echo "Mining two blocks to confirm DAG is created and cluster is up and settled. May take several minutes (expect true):"
 cf ssh miners -i 0 -c "app/geth attach --exec 'admin.sleepBlocks(2); miner.stop()' app/data/geth.ipc"

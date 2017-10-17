@@ -1,7 +1,7 @@
 ---
 applications:
 - name: bootnode
-  command: ./bootnode --addr="$CF_INSTANCE_INTERNAL_IP:33445" --nodekeyhex cc19ad1065bd4446d501d9b5dc462ff939972ab5b12d4d7b37e827b480e01628 --verbosity 9
+  command: ./bootnode --addr="$CF_INSTANCE_INTERNAL_IP:$BOOTNODE_PORT" --nodekeyhex $BOOTNODE_KEY --verbosity 9
   health-check-type: process
   buildpack: binary_buildpack
   no-route: true
