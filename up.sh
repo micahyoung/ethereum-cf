@@ -9,27 +9,28 @@ rm -rf geth-tmp
 mkdir geth-tmp
 cp -r genesis-template.json geth-tmp/genesis.json
 
+docker run -v $(pwd)/geth-tmp:/geth-tmp ethereum-artifacts \
+  bash -c '
 for i in {1..2}; do
-  docker run -v $(pwd)/geth-tmp:/geth-tmp ethereum-artifacts \
-    bash -c 'geth account new --datadir /geth-tmp/ --password <(echo password)'
+  geth account new --datadir /geth-tmp/ --password <(echo password)
 done
 
-for keystore in geth-tmp/keystore/*; do
-  ACCOUNT_ID="0x$(jq -r '.address' < $keystore)"
+for keystore in /geth-tmp/keystore/*; do
+  ACCOUNT_ID=0x$(jq -r ".address" < $keystore)
 
-  mv geth-tmp/genesis.json{,.bak}
-  cat > geth-tmp/genesis.json \
-    <(cat geth-tmp/genesis.json.bak | jq --arg account_id $ACCOUNT_ID '.alloc |= .+ {($account_id): {"balance": "1000000000000000000"}}')
+  mv /geth-tmp/genesis.json{,.bak}
+  cat > /geth-tmp/genesis.json \
+    <(cat /geth-tmp/genesis.json.bak | jq --arg account_id $ACCOUNT_ID ".alloc |= .+ {(\$account_id): {\"balance\": \"1000000000000000000\"}}")
 done
 
-docker run -v $(pwd)/geth-tmp:/geth-tmp ethereum-artifacts \
-  bash -c 'geth init --datadir="/geth-tmp/" /geth-tmp/genesis.json'
+geth init --datadir="/geth-tmp/" /geth-tmp/genesis.json
 
-docker run -v $(pwd)/geth-tmp:/geth-tmp ethereum-artifacts \
-  bash -c 'bootnode --genkey /geth-tmp/bootnode.key'
+bootnode --genkey /geth-tmp/bootnode.key
 
-docker run -v $(pwd)/geth-tmp:/geth-tmp ethereum-artifacts \
-  bash -c 'bootnode --writeaddress --nodekey /geth-tmp/bootnode.key > /geth-tmp/bootnode.pub'
+bootnode --writeaddress --nodekey /geth-tmp/bootnode.key > /geth-tmp/bootnode.pub
+
+chown -R 1000:1000 /geth-tmp
+'
 
 rm -rf pcf-root
 mkdir -p pcf-root/data
