@@ -50,7 +50,9 @@ cf start bootnodes
 
 NETWORK_ID="12345"
 BOOTNODE_PUBKEY=$(< geth-tmp/bootnode.pub)
-BOOTNODE_IP=$(cf ssh bootnodes -c "hostname --ip-address")
+cf run-task bootnodes 'echo BOOTNODE_IP:$(hostname --ip-address):'
+BOOTNODE_IP=$(grep -m1 -o -e 'BOOTNODE_IP:.*' <(cf logs bootnodes) | cut -d: -f2)
+
 cf set-env miners NETWORK_ID $NETWORK_ID
 cf set-env miners BOOTNODE_PORT $BOOTNODE_PORT
 cf set-env miners BOOTNODE_PUBKEY $BOOTNODE_PUBKEY
@@ -62,6 +64,10 @@ cf set-env nodes BOOTNODE_IP $BOOTNODE_IP
 
 cf start miners
 cf start nodes
+
+if ! grep -q network-policy <(cf plugins); then
+  cf install-plugin -f network-policy
+fi
 
 cf allow-access miners nodes     --protocol udp --port 30303
 cf allow-access miners nodes     --protocol tcp --port 30303
@@ -75,4 +81,4 @@ cf allow-access nodes  bootnodes --protocol udp --port $BOOTNODE_PORT
 cf allow-access miners bootnodes --protocol udp --port $BOOTNODE_PORT
 
 echo "Mining a block to confirm DAG is created and cluster is up and settled. May take several minutes (expect true):"
-cf ssh miners -i 0 -c "app/geth attach --exec 'admin.sleepBlocks(1); miner.stop()' app/data/geth.ipc"
+cf run-task bootnodes 'geth attach --exec "admin.sleepBlocks(1); miner.stop()" data/geth.ipc && echo INIT_COMPLETE' && cf logs bootnodes | grep -m1 'INIT_COMPLETE'
