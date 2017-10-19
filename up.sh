@@ -34,13 +34,12 @@ chown -R 1000:1000 /geth-tmp
 
 rm -rf pcf-root
 mkdir -p pcf-root/data
+cp bootnode_env.sh node_env.sh pcf-root/
 cp -r geth-tmp/{geth,keystore,genesis.json} pcf-root/data
 docker run -v $(pwd)/pcf-root:/pcf-root ethereum-artifacts \
   cp /usr/bin/geth /usr/bin/bootnode /pcf-root
 
 cf push bootnodes -f manifests/bootnode-manifest.yml -p pcf-root/ --no-start
-cf push miners    -f manifests/miner-manifest.yml    -p pcf-root/ --no-start
-cf push nodes     -f manifests/node-manifest.yml     -p pcf-root/ --no-start
 
 BOOTNODE_PORT=33445
 BOOTNODE_KEY=$(< geth-tmp/bootnode.key)
@@ -48,18 +47,13 @@ cf set-env bootnodes BOOTNODE_PORT $BOOTNODE_PORT
 cf set-env bootnodes BOOTNODE_KEY $BOOTNODE_KEY
 cf start bootnodes
 
-NETWORK_ID="12345"
-BOOTNODE_PUBKEY=$(< geth-tmp/bootnode.pub)
-BOOTNODE_IP=$(cf ssh bootnodes -c "hostname --ip-address")
+read  -n 1 -p "Continue: " mainmenuinput
 
+cf push miners    -f manifests/miner-manifest.yml    -p pcf-root/ --no-start
+cf push nodes     -f manifests/node-manifest.yml     -p pcf-root/ --no-start
+NETWORK_ID=12345
 cf set-env miners NETWORK_ID $NETWORK_ID
-cf set-env miners BOOTNODE_PORT $BOOTNODE_PORT
-cf set-env miners BOOTNODE_PUBKEY $BOOTNODE_PUBKEY
-cf set-env miners BOOTNODE_IP $BOOTNODE_IP
 cf set-env nodes NETWORK_ID $NETWORK_ID
-cf set-env nodes BOOTNODE_PORT $BOOTNODE_PORT
-cf set-env nodes BOOTNODE_PUBKEY $BOOTNODE_PUBKEY
-cf set-env nodes BOOTNODE_IP $BOOTNODE_IP
 
 cf start miners
 cf start nodes
@@ -79,5 +73,4 @@ cf allow-access miners miners    --protocol tcp --port 30303
 cf allow-access nodes  bootnodes --protocol udp --port $BOOTNODE_PORT
 cf allow-access miners bootnodes --protocol udp --port $BOOTNODE_PORT
 
-echo "Mining a block to confirm DAG is created and cluster is up and settled. May take several minutes (expect true):"
-cf run-task bootnodes 'geth attach --exec "admin.sleepBlocks(1); miner.stop()" data/geth.ipc && echo INIT_COMPLETE' && cf logs bootnodes | grep -m1 'INIT_COMPLETE'
+echo "Chain is up. Run ./test.sh to validate"

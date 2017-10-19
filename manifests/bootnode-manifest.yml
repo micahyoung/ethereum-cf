@@ -1,7 +1,9 @@
 ---
 applications:
 - name: bootnode
-  command: ./bootnode --addr="$CF_INSTANCE_INTERNAL_IP:$BOOTNODE_PORT" --nodekeyhex $BOOTNODE_KEY --verbosity 9
+  command: source bootnode_env.sh && ./bootnode --addr="$CF_INSTANCE_INTERNAL_IP:$BOOTNODE_PORT" --nodekeyhex $BOOTNODE_KEY --verbosity 9
   health-check-type: process
   buildpack: binary_buildpack
   no-route: true
+  services:
+    - ethereum-discovery

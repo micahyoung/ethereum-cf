@@ -1,7 +1,9 @@
 ---
 applications:
 - name: node
-  command: ./geth --networkid=$NETWORK_ID --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3 --bootnodes=enode://$BOOTNODE_PUBKEY@$BOOTNODE_IP:$BOOTNODE_PORT --datadir="./data" --nat none -verbosity 6
+  command: source node_env.sh && ./geth --networkid=$NETWORK_ID --rpc --rpcaddr 0.0.0.0 --rpcport $PORT --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3 --bootnodes=enode://$BOOTNODE --datadir="./data" --nat none -verbosity 6
   health-check-type: process
   buildpack: binary_buildpack
   no-route: true
+  services:
+    - ethereum-discovery

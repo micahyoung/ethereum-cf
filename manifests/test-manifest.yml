@@ -1,7 +1,0 @@
----
-applications:
-- name: node
-  command: sleep 120 # unused; always started then stopped
-  health-check-type: process
-  buildpack: binary_buildpack
-  no-route: true
