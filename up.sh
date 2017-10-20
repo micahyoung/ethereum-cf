@@ -39,6 +39,8 @@ cp -r geth-tmp/{geth,keystore,genesis.json} pcf-root/data
 docker run -v $(pwd)/pcf-root:/pcf-root ethereum-artifacts \
   cp /usr/bin/geth /usr/bin/bootnode /pcf-root
 
+cf create-service ethereum-discovery-service public ethereum-discovery
+
 cf push bootnodes -f manifests/bootnode-manifest.yml -p pcf-root/ --no-start
 
 BOOTNODE_PORT=33445
@@ -47,7 +49,7 @@ cf set-env bootnodes BOOTNODE_PORT $BOOTNODE_PORT
 cf set-env bootnodes BOOTNODE_KEY $BOOTNODE_KEY
 cf start bootnodes
 
-read  -n 1 -p "Continue: " mainmenuinput
+read  -n 1 -p "Check /log-collector/bootnodes for bootnode: " mainmenuinput
 
 cf push miners    -f manifests/miner-manifest.yml    -p pcf-root/ --no-start
 cf push nodes     -f manifests/node-manifest.yml     -p pcf-root/ --no-start

@@ -5,4 +5,4 @@ set -o nounset
 
 sleep 5 #allow time for container to settle
 
-export BOOTNODE=$(jq -r '.["ethereum-service"][0].credentials.bootnode' <(echo $VCAP_SERVICES))
+export BOOTNODE=$(jq -r '.["ethereum-discovery-service"][0].credentials.bootnode' <(echo $VCAP_SERVICES))
