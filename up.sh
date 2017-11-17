@@ -64,13 +64,9 @@ if ! grep -q network-policy <(cf plugins); then
   cf install-plugin -f network-policy
 fi
 
-cf allow-access miners nodes     --protocol udp --port 30303
 cf allow-access miners nodes     --protocol tcp --port 30303
-cf allow-access nodes  nodes     --protocol udp --port 30303
 cf allow-access nodes  nodes     --protocol tcp --port 30303
-cf allow-access nodes  miners    --protocol udp --port 30303
 cf allow-access nodes  miners    --protocol tcp --port 30303
-cf allow-access miners miners    --protocol udp --port 30303
 cf allow-access miners miners    --protocol tcp --port 30303
 cf allow-access nodes  bootnodes --protocol udp --port $BOOTNODE_PORT
 cf allow-access miners bootnodes --protocol udp --port $BOOTNODE_PORT
